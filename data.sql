@@ -20,7 +20,7 @@ CREATE TABLE reservations (
     customer_id integer NOT NULL REFERENCES customers,
     start_at timestamp without time zone NOT NULL,
     num_guests integer NOT NULL,
-    notes text DEFAULT 'None',
+    notes text DEFAULT '' NOT NLL,
     CONSTRAINT reservations_num_guests_check CHECK ((num_guests > 0))
 );
 

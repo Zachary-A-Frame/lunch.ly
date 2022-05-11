@@ -54,7 +54,9 @@ router.get("/:id/", async function(req, res, next) {
 
     const reservations = await customer.getReservations();
 
-    return res.render("customer_detail.html", { customer, reservations });
+    const fullName = await customer.fullName;
+
+    return res.render("customer_detail.html", { customer, reservations, fullName });
   } catch (err) {
     return next(err);
   }
@@ -100,8 +102,8 @@ router.post("/:id/add-reservation/", async function(req, res, next) {
 
     const reservation = new Reservation({
       customerId,
-      startAt,
       numGuests,
+      startAt,
       notes
     });
     await reservation.save();

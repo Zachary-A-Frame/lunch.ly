@@ -12,16 +12,27 @@ class Customer {
     this.lastName = lastName;
     this.phone = phone;
     this.notes = notes;
+    this.fullName = firstName + ' ' + lastName
+  }
+
+  async fullName() {
+    if (this.id === undefined) {
+      const err = new Error(`No such customer: ${id}`)
+      err.status = 404
+      throw err
+    }
+
+    return `${this.firstName} ${this.lastName}`
   }
 
   /** find all customers. */
 
   static async all() {
     const results = await db.query(
-      `SELECT id, 
-         first_name AS "firstName",  
-         last_name AS "lastName", 
-         phone, 
+      `SELECT id,
+         first_name AS "firstName",
+         last_name AS "lastName",
+         phone,
          notes
        FROM customers
        ORDER BY last_name, first_name`
@@ -33,11 +44,11 @@ class Customer {
 
   static async get(id) {
     const results = await db.query(
-      `SELECT id, 
-         first_name AS "firstName",  
-         last_name AS "lastName", 
-         phone, 
-         notes 
+      `SELECT id,
+         first_name AS "firstName",
+         last_name AS "lastName",
+         phone,
+         notes
         FROM customers WHERE id = $1`,
       [id]
     );
@@ -78,6 +89,7 @@ class Customer {
       );
     }
   }
+
 }
 
 module.exports = Customer;
